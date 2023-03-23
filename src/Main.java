@@ -23,10 +23,10 @@ public class Main {
         create.createFile(gameDir + "src/main/Utils.java");
         create.createFile(gameDir + "temp/temp.txt");
 
-        GameProgress gameProgress = new GameProgress(100, "Кирка", 5, 192);
-        GameProgress gameProgress1 = new GameProgress(250, "Стальной меч", 25, 192);
+        GameProgress gameProgress = new GameProgress(100, "Кирка", 5, 102);
+        GameProgress gameProgress1 = new GameProgress(250, "Стальной меч", 25, 132);
         GameProgress gameProgress2 = new GameProgress(300, "Огненная булава из зуба дракона", 55,
-                192);
+                205);
 
         create.saveGame("save.dat", gameProgress);
         create.saveGame("save2.dat", gameProgress1);
