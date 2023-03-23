@@ -74,8 +74,9 @@ public class CreateDirAndFiles {
                 FileInputStream fis = new FileInputStream(SAVE + s);
                 zos.putNextEntry(new ZipEntry(s));
                 byte[] buffer = new byte[fis.available()];
-                if (fis.read(buffer) != -1) {
-                    zos.write(buffer);
+                int a;
+                if ((a = fis.read(buffer)) != -1) {
+                    zos.write(buffer,0,a);
                     SB.append(s).append(" - файл успешно записан в архив\n");
                 } else {
                     SB.append(s).append(" - ошибка записи\n");
