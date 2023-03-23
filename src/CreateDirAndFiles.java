@@ -12,6 +12,7 @@ public class CreateDirAndFiles {
     public static final String SUCCESSFULLY = "Уcпешно создан!";
     public static final String OPS = "Такой Файл или Папка уже существует! ";
     public static final String SAVE = "D:/Games/savegames/";
+    public ArrayList <String> SAVEPATHLIST = new ArrayList<>();
 
     public File createDir(String dir) {
         File file = new File(dir);
@@ -60,8 +61,8 @@ public class CreateDirAndFiles {
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(gameProgress);
             oos.flush();
-            Main.SAVEPATHLIST.add(name);
-            SB.append(name).append("- файл успешно создан\n");
+            SAVEPATHLIST.add(name);
+            SB.append(name).append("- сохранение успешно создано\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +76,7 @@ public class CreateDirAndFiles {
                 byte[] buffer = new byte[fis.available()];
                 if (fis.read(buffer) != -1) {
                     zos.write(buffer);
-                    SB.append(s).append(" - файл успешно записан\n");
+                    SB.append(s).append(" - файл успешно записан в архив\n");
                 } else {
                     SB.append(s).append(" - ошибка записи\n");
                 }
