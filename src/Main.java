@@ -23,6 +23,9 @@ public class Main extends CreateDirAndFiles {
         saveGame("save2.dat", gameProgress1);
         saveGame("save3.dat", gameProgress2);
         zipFiles(SAVEPATHLIST, "allSaves.zip");
+        for (String file:SAVEPATHLIST) {
+            deleteFile(SAVE + file);
+        }
         openZip(SAVE + "allSaves.zip", SAVE);
         System.out.println(openProgress(SAVE + "save.dat"));
         LogWriter(gameDir + "temp/temp.txt");

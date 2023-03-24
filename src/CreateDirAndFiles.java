@@ -74,8 +74,6 @@ public class CreateDirAndFiles {
                 }
                 fis.close();
                 zos.closeEntry();
-                Files.delete(Path.of(SAVE + s));
-                SB.append(s).append(" - файл успешно удален\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,6 +107,14 @@ public class CreateDirAndFiles {
             e.printStackTrace();
         }
         return null;
+    }
+    public static void deleteFile(String path){
+        try {
+            Files.delete(Path.of(path));
+            SB.append(path).append(" - файл успешно удален\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
