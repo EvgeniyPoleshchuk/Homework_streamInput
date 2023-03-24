@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 
@@ -12,9 +13,9 @@ public class CreateDirAndFiles {
     public static final String SUCCESSFULLY = "Уcпешно создан!";
     public static final String OPS = "Такой Файл или Папка уже существует! ";
     public static final String SAVE = "D:/Games/savegames/";
-    public ArrayList <String> SAVEPATHLIST = new ArrayList<>();
+    public static ArrayList<String> SAVEPATHLIST = new ArrayList<>();
 
-    public File createDir(String dir) {
+    public static File createDir(String dir) {
         File file = new File(dir);
         if (file.mkdir()) {
             SB.append(file.getName()).append(" - директория успешно создана\n");
@@ -25,7 +26,7 @@ public class CreateDirAndFiles {
         return file;
     }
 
-    public File createFile(String fileName) {
+    public static File createFile(String fileName) {
         File file = new File(fileName);
         try {
             if (file.createNewFile()) {
@@ -40,15 +41,7 @@ public class CreateDirAndFiles {
         return file;
     }
 
-    public void delete(String file) {
-        try {
-            Files.delete(Path.of(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void LogWriter(String file) {
+    public static void LogWriter(String file) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(SB.toString());
         } catch (IOException e) {
@@ -56,7 +49,7 @@ public class CreateDirAndFiles {
         }
     }
 
-    public void saveGame(String name, GameProgress gameProgress) {
+    public static void saveGame(String name, GameProgress gameProgress) {
         try (FileOutputStream fos = new FileOutputStream(SAVE + name);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(gameProgress);
@@ -68,7 +61,7 @@ public class CreateDirAndFiles {
         }
     }
 
-    public void zipFiles(ArrayList<String> list, String zipName) {
+    public static void zipFiles(ArrayList<String> list, String zipName) {
         try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(SAVE + zipName))) {
             for (String s : list) {
                 FileInputStream fis = new FileInputStream(SAVE + s);
@@ -76,10 +69,8 @@ public class CreateDirAndFiles {
                 byte[] buffer = new byte[fis.available()];
                 int a;
                 if ((a = fis.read(buffer)) != -1) {
-                    zos.write(buffer,0,a);
+                    zos.write(buffer, 0, a);
                     SB.append(s).append(" - файл успешно записан в архив\n");
-                } else {
-                    SB.append(s).append(" - ошибка записи\n");
                 }
                 fis.close();
                 zos.closeEntry();
@@ -89,6 +80,35 @@ public class CreateDirAndFiles {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void openZip(String zipPath, String zipOpenPath) {
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
+            ZipEntry zipEntry;
+            while ((zipEntry = zis.getNextEntry()) != null) {
+                FileOutputStream fos = new FileOutputStream(zipOpenPath + zipEntry.getName());
+                for (int i = zis.read(); i != -1; i = zis.read()) {
+                    fos.write(i);
+                }
+                fos.flush();
+                zis.closeEntry();
+                fos.close();
+                SB.append(zipEntry.getName()).append(" - успешно распакован\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static GameProgress openProgress(String saveName) {
+        try (FileInputStream fis = new FileInputStream(saveName);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            return (GameProgress) ois.readObject();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

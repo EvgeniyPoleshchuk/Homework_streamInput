@@ -6,33 +6,34 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-public class Main {
+public class Main extends CreateDirAndFiles {
     public static void main(String[] args) {
-        CreateDirAndFiles create = new CreateDirAndFiles();
         String gameDir = "D:/Games/";
-        create.createDir(gameDir + "src");
-        create.createDir(gameDir + "res");
-        create.createDir(gameDir + "savegames");
-        create.createDir(gameDir + "temp");
-        create.createDir(gameDir + "src/main");
-        create.createDir(gameDir + "src/test");
-        create.createDir(gameDir + "res/drawables");
-        create.createDir(gameDir + "res/vectors");
-        create.createDir(gameDir + "res/icons");
-        create.createFile(gameDir + "src/main/Main.java");
-        create.createFile(gameDir + "src/main/Utils.java");
-        create.createFile(gameDir + "temp/temp.txt");
+        createDir(gameDir + "src");
+        createDir(gameDir + "res");
+        createDir(gameDir + "savegames");
+        createDir(gameDir + "temp");
+        createDir(gameDir + "src/main");
+        createDir(gameDir + "src/test");
+        createDir(gameDir + "res/drawables");
+        createDir(gameDir + "res/vectors");
+        createDir(gameDir + "res/icons");
+        createFile(gameDir + "src/main/Main.java");
+        createFile(gameDir + "src/main/Utils.java");
+        createFile(gameDir + "temp/temp.txt");
 
         GameProgress gameProgress = new GameProgress(100, "Кирка", 5, 102);
         GameProgress gameProgress1 = new GameProgress(250, "Стальной меч", 25, 132);
         GameProgress gameProgress2 = new GameProgress(300, "Огненная булава из зуба дракона", 55,
                 205);
 
-        create.saveGame("save.dat", gameProgress);
-        create.saveGame("save2.dat", gameProgress1);
-        create.saveGame("save3.dat", gameProgress2);
-        create.zipFiles(create.SAVEPATHLIST,"Save.zip");
-        create.LogWriter(gameDir + "temp/temp.txt");
+        saveGame("save.dat", gameProgress);
+        saveGame("save2.dat", gameProgress1);
+        saveGame("save3.dat", gameProgress2);
+        zipFiles(SAVEPATHLIST, "allSaves.zip");
+        openZip(SAVE + "allSaves.zip", SAVE);
+        System.out.println(openProgress(SAVE + "save.dat"));
+        LogWriter(gameDir + "temp/temp.txt");
     }
 }
 
