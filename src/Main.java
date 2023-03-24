@@ -1,5 +1,3 @@
-
-
 public class Main extends CreateDirAndFiles {
     public static void main(String[] args) {
         String gameDir = "D:/Games/";
